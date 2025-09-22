@@ -1,4 +1,6 @@
 (() => {
+  const ADVANCED_MODE = false;
+
   // Enhanced logging utility
   const logger = {
     info: (message, data = null) => {
@@ -19,7 +21,10 @@
     }
   };
 
-  const getAndValidateInput = (key, message, defaultValue) => {
+  const getAndValidateInput = (key, message, defaultValue, advancedMode) => {
+    if ( advancedMode !== true ) {
+      return defaultValue;
+    }
     const result = prompt(message, defaultValue);
     
       if (!result) {
@@ -51,13 +56,13 @@
     logger.info('Starting user input collection');
 
     try {
-      nextPageLabel = getAndValidateInput('nextPageLabel', "Next page label", 'Next month');
-      deleteEventButtonLabel = getAndValidateInput('deleteEventButtonLabel', "Delete event label", 'Delete event');
-      deleteTaskButtonLabel = getAndValidateInput('deleteTaskButtonLabel', "Delete task label", 'Delete task');
-      deleteReoccurringEventLabel = getAndValidateInput('deleteReoccurringEventLabel', "Delete reoccurring event label", 'Delete repeating event');
-      deleteReoccurringTaskLabel = getAndValidateInput('deleteReoccurringTaskLabel', "Delete reoccurring task label", 'Delete recurring task');
-      maxPages = getAndValidateInput('maxPages', "Max months to process", 12);
-      const trimmedSearch = getAndValidateInput('trimmedSearch', "Enter the text/string to search for in calendar events that you want to delete", "");
+      nextPageLabel = getAndValidateInput('nextPageLabel', "Next page label", 'Next month', ADVANCED_MODE);
+      deleteEventButtonLabel = getAndValidateInput('deleteEventButtonLabel', "Delete event label", 'Delete event', ADVANCED_MODE);
+      deleteTaskButtonLabel = getAndValidateInput('deleteTaskButtonLabel', "Delete task label", 'Delete task', ADVANCED_MODE);
+      deleteReoccurringEventLabel = getAndValidateInput('deleteReoccurringEventLabel', "Delete reoccurring event label", 'Delete repeating event', ADVANCED_MODE);
+      deleteReoccurringTaskLabel = getAndValidateInput('deleteReoccurringTaskLabel', "Delete reoccurring task label", 'Delete recurring task', ADVANCED_MODE);
+      maxPages = getAndValidateInput('maxPages', "Max months to process", 12, true);
+      const trimmedSearch = getAndValidateInput('trimmedSearch', "Enter the text/string to search for in calendar events that you want to delete", "", true);
       const confirmation = confirm(
         `Are you sure you want to delete ALL events containing "${trimmedSearch}"?\n\n` +
         "This action cannot be undone. The script will:\n" +
